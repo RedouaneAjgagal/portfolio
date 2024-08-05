@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Navbar.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Navbar.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>//@ts-check
+
+import React, { useEffect } from "react";
+import { useState } from "react"
+import { Link, NavLink } from "react-router-dom"
+
+
+/**
+ * Navbar component to show on mobile &amp; desktop
+ * @returns {React.JSX.Element}
+ * @example
+ * // Mobile => display logo and burger menu, and toggle to show the navlinks
+ * // Desktop => display the navbar with the logo, links and hide burger menu button
+ */
+const Navbar = () => {
+  const [isNavMenuOpen, setIsNavMenuOpen] = useState(false);
+
+  /**
+   * Toggle navigation menu to show/hide navigation links on mobile
+   * @function
+   * @type {React.MouseEventHandler&lt;HTMLButtonElement>}
+   * @returns {void}
+   */
+  const toggleNavMenuHandler = () => {
+    setIsNavMenuOpen(prev => !prev);
+  }
+
+
+  useEffect(() => {
+    if (isNavMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isNavMenuOpen]);
+
+  /**
+   * Close the nav bar menu whenever clicking on a link
+   * @function
+   * @type {React.MouseEventHandler&lt;HTMLAnchorElement>}
+   * @example
+   * // CLICK ON CONTACT LINK => close the navbar
+   */
+  const closeNavbarMenuHandler = () => {
+    setIsNavMenuOpen(false);
+  }
+
+  return (
+    &lt;nav className={`p-4 w-full h-full flex flex-col ${isNavMenuOpen ? "" : "lg:grid lg:grid-cols-5 lg:p-0"}`}>
+      &lt;div className={`min-w-fit flex items-center justify-between gap-4 ${isNavMenuOpen ? "" : "md:gap-10 lg:gap-12 xl:gap-16 lg:col-span-3 lg:pl-10 xl:pl-16 2xl:gap-20"}`}>
+        &lt;div className="relative z-10">
+          &lt;Link to={"/"} className={`font-montserrat uppercase font-medium text-3xl ${isNavMenuOpen ? "text-slate-50" : "text-black"} sm:text-4xl`}>Ajgagal&lt;/Link>
+        &lt;/div>
+        &lt;div className={`mt-1 transition-all flex ${isNavMenuOpen ? "" : "sm:hidden"}`}>
+          &lt;button onClick={toggleNavMenuHandler} className={`relative z-10 w-8 h-7 flex items-center before:absolute before:left-1 before:top-1 before:w-6 before:h-1 before:rounded-full after:absolute after:bottom-1 after:left-1 after:w-6 after:h-1 after:rounded-full before:transition-all after:transition-all 
+          ${isNavMenuOpen
+              ? "before:bg-slate-50 after:bg-slate-50 before:rotate-45 before:top-1/2 before:-translate-y-1/2 after:top-1/2 after:-translate-y-1/2 after:-rotate-45"
+              : "before:bg-slate-700 after:bg-slate-700"}`
+          }>
+            &lt;span className={`w-5 ml-1 h-1 rounded-full bg-slate-700  ${isNavMenuOpen ? "invisible" : "visible"}`}>&lt;/span>
+          &lt;/button>
+        &lt;/div>
+        &lt;div className={`fixed left-0 min-h-svh bg-blue-500 w-full grid content-center ${isNavMenuOpen ? "top-0" : "-top-full sm:top-0 sm:static sm:min-h-min sm:bg-transparent"} transition-all`}>
+          &lt;ul className={`font-serif font-medium uppercase flex flex-col items-center w-full relative gap-8 text-lg md:text-xl ${isNavMenuOpen ? "" : "sm:flex-row sm:relative sm:gap-6 md:gap-8 xl:gap-12 2xl:gap-16"}`}>
+            &lt;li>&lt;NavLink onClick={closeNavbarMenuHandler} to="/" className={({ isActive }) => `${isActive ? `underline decoration-2 ${isNavMenuOpen ? "text-slate-50 decoration-orange-500 underline-offset-8" : "sm:text-sky-600 sm:decoration-sky-600 sm:underline-offset-4"}` : isNavMenuOpen ? "text-white" : "sm:no-underline "}`}>Home&lt;/NavLink>&lt;/li>
+            &lt;li className="min-w-fit">&lt;NavLink onClick={closeNavbarMenuHandler} to="/about" className={({ isActive }) => `${isActive ? `underline decoration-2 ${isNavMenuOpen ? "text-slate-50 decoration-orange-500 underline-offset-8" : "sm:text-sky-600 sm:decoration-sky-600 sm:underline-offset-4"}` : isNavMenuOpen ? "text-white" : "sm:no-underline"}`}>About Me&lt;/NavLink>&lt;/li>
+            &lt;li>&lt;NavLink onClick={closeNavbarMenuHandler} to="/projects" className={({ isActive }) => `${isActive ? `underline decoration-2 ${isNavMenuOpen ? "text-slate-50 decoration-orange-500 underline-offset-8" : "sm:text-sky-600 sm:decoration-sky-600 sm:underline-offset-4"}` : isNavMenuOpen ? "text-white" : "sm:no-underline"}`}>Projects&lt;/NavLink>&lt;/li>
+            &lt;li className={`${isNavMenuOpen ? "" : "lg:hidden"}`}>&lt;NavLink onClick={closeNavbarMenuHandler} to="/contact" className={({ isActive }) => `${isActive ? `underline decoration-2 ${isNavMenuOpen ? "text-slate-50 decoration-orange-500 underline-offset-8" : "sm:text-sky-600 sm:decoration-sky-600 sm:underline-offset-4 sm:absolute sm:right-0 sm:top-0"}` : isNavMenuOpen ? "text-white" : "sm:no-underline sm:absolute sm:right-0 sm:top-0 lg:text-white lg:border-2 lg:px-4 lg:py-1 lg:border-white lg:rounded-tl-2xl lg:rounded-br-2xl lg:-top-1"}`}>Contact&lt;/NavLink>&lt;/li>
+          &lt;/ul>
+        &lt;/div>
+      &lt;/div>
+      &lt;div className={`hidden ${isNavMenuOpen ? "" : "lg:col-span-2 lg:flex lg:items-center lg:justify-end lg:bg-blue-500 lg:pr-10 xl:pr-16"}`}>
+        &lt;ul className="flex gap-4 font-serif font-medium uppercase text-lg lg:text-xl">
+          &lt;li>
+            &lt;NavLink onClick={closeNavbarMenuHandler} to="/contact" className="text-slate-50 font- border-2 px-4 py-2 border-white rounded-tl-2xl rounded-br-2xl">Contact&lt;/NavLink>
+          &lt;/li>
+        &lt;/ul>
+      &lt;/div>
+    &lt;/nav>
+  )
+}
+
+export default Navbar</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Navbar">Navbar</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Mon Aug 05 2024 22:46:28 GMT+0100 (GMT+01:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
