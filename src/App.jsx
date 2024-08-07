@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import { Home, Root } from "./pages"
+import { About, Home, Root } from "./pages"
 
 
 function App() {
@@ -12,6 +12,10 @@ function App() {
         {
           index: true,
           element: <Home />
+        },
+        {
+          path: "/about",
+          element: <About />
         }
       ]
     }

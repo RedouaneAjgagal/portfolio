@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useState } from "react"
-import { Link, NavLink } from "react-router-dom"
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 
 /**
@@ -14,6 +14,7 @@ import { Link, NavLink } from "react-router-dom"
  */
 const Navbar = () => {
   const [isNavMenuOpen, setIsNavMenuOpen] = useState(false);
+  const location = useLocation();
 
   /**
    * Toggle navigation menu to show/hide navigation links on mobile
@@ -45,13 +46,22 @@ const Navbar = () => {
     setIsNavMenuOpen(false);
   }
 
+  /**
+   * boolean const to remove the blue navigation color on other pages beside the home page
+   * @type {boolean}
+   * @example
+   * // HOME PAGE => blue navigation bar
+   * // OTHER PAGES => white navigation bar
+   */
+  const isHomePage = location.pathname === "/";
+
   return (
     <nav className={`p-4 w-full h-full flex flex-col ${isNavMenuOpen ? "" : "lg:grid lg:grid-cols-5 lg:p-0"}`}>
       <div className={`min-w-fit flex items-center justify-between gap-4 ${isNavMenuOpen ? "" : "md:gap-10 lg:gap-12 xl:gap-16 lg:col-span-3 lg:pl-10 xl:pl-16 2xl:gap-20"}`}>
         <div className="relative z-10">
           <Link to={"/"} className={`font-montserrat uppercase font-medium text-3xl ${isNavMenuOpen ? "text-slate-50" : "text-black"} sm:text-4xl`}>Ajgagal</Link>
         </div>
-        <div className={`mt-1 transition-all flex ${isNavMenuOpen ? "" : "sm:hidden"}`}>
+        <div className={`transition-all flex ${isNavMenuOpen ? "" : "sm:hidden"}`}>
           <button onClick={toggleNavMenuHandler} className={`relative z-10 w-8 h-7 flex items-center before:absolute before:left-1 before:top-1 before:w-6 before:h-1 before:rounded-full after:absolute after:bottom-1 after:left-1 after:w-6 after:h-1 after:rounded-full before:transition-all after:transition-all 
           ${isNavMenuOpen
               ? "before:bg-slate-50 after:bg-slate-50 before:rotate-45 before:top-1/2 before:-translate-y-1/2 after:top-1/2 after:-translate-y-1/2 after:-rotate-45"
@@ -69,10 +79,10 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
-      <div className={`hidden ${isNavMenuOpen ? "" : "lg:col-span-2 lg:flex lg:items-center lg:justify-end lg:bg-blue-500 lg:pr-10 xl:pr-16"}`}>
+      <div className={`hidden ${isNavMenuOpen ? "" : `lg:col-span-2 lg:flex lg:items-center lg:justify-end lg:pr-10 xl:pr-16 ${isHomePage ? "lg:bg-blue-500" : "lg:bg-slate-50"}`}`}>
         <ul className="flex gap-4 font-serif font-medium uppercase text-lg lg:text-xl">
           <li>
-            <NavLink onClick={closeNavbarMenuHandler} to="/contact" className="text-slate-50 font- border-2 px-4 py-2 border-white rounded-tl-2xl rounded-br-2xl">Contact</NavLink>
+            <NavLink onClick={closeNavbarMenuHandler} to="/contact" className={`font- border-2 px-4 py-2  rounded-tl-2xl rounded-br-2xl ${isHomePage ? "text-slate-50 border-white" : "border-slate-600"}`}>Contact</NavLink>
           </li>
         </ul>
       </div>
