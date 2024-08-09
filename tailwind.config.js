@@ -7,10 +7,8 @@ export default {
   theme: {
     extend: {},
     fontFamily: {
-      'sans': ['ui-sans-serif', 'system-ui'],
-      'serif': ['ui-serif', 'Georgia'],
-      'mono': ['ui-monospace', 'SFMono-Regular'],
-      'montserrat': ['Montserrat', 'sans-serif']
+      'sans': ['Montserrat', 'sans-serif'],
+      'serif': ['Playfair Display', 'serif']
     }
   },
   plugins: [],

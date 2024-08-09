@@ -1,5 +1,8 @@
+//@ts-check
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { About, Home, Root } from "./pages"
+import React from "react"
 
 
 function App() {
