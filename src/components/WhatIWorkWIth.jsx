@@ -14,6 +14,9 @@ import nodeJs from "../assets/nodejs.svg";
 import expressJs from "../assets/express.svg";
 //@ts-ignore
 import mongodb from "../assets/mongodb.svg";
+//@ts-ignore
+import typescript from "../assets/typescript.svg";
+import GradientText from "./GradientText";
 
 /**
  * skill object that holds the skill information
@@ -35,7 +38,7 @@ const WhatIWorkWIth = () => {
      */
     const frontendSkills = [
         {
-            title: "React JS (with TS)",
+            title: "React JS",
             image: reactSvg,
             description: "React JS is a popular JavaScript library used for building user interfaces, particularly single-page applications."
         },
@@ -57,7 +60,7 @@ const WhatIWorkWIth = () => {
      */
     const backendSkills = [
         {
-            title: "Node JS (with TS)",
+            title: "Node JS",
             image: nodeJs,
             description: "Node.js is a runtime environment that allows developers to execute JavaScript on the server side."
         },
@@ -71,45 +74,44 @@ const WhatIWorkWIth = () => {
             image: mongodb,
             description: "MongoDB is a NoSQL database that stores data in flexible, JSON-like documents, allowing for easy scalability and efficient querying."
         },
-    ]
+    ];
+
+    /**
+     * general skills
+     * @type {Skill[]}
+     */
+    const generalSkills = [
+        {
+            title: "TypeScript",
+            image: typescript,
+            description: "TypeScript is a statically-typed superset of JavaScript that adds type safety to the language."
+        }
+    ];
+
+    /**
+     * Grab the frontend skills, backend skills and genearal skills in one array
+     * @type {Skill[]}
+     */
+    const skills = [...generalSkills, ...frontendSkills, ...backendSkills];
 
     return (
-        <section className="pt-4 pb-8">
-            <h2 className="underline decoration-amber-300 decoration-double underline-offset-4 font-montserrat font-bold text-slate-700 text-2xl mt-1 mb-6 uppercase lg:mb-8 lg:text-4xl">What i work with</h2>
-            <div className="flex flex-col gap-10 lg:gap-14">
-                <div className="flex flex-col gap-2 lg:gap-4">
-                    <h3 className="font-montserrat font-semibold text-blue-600 text-lg lg:text-xl">Client Side</h3>
-                    <div className="flex flex-col gap-4 lg:gap-8">
-                        {frontendSkills.map((frontendSkill, index) => (
-                            <div key={index} className="flex flex-col gap-2">
-                                <div className="flex items-center gap-2">
-                                    <img src={frontendSkill.image} alt={`${frontendSkill.title} SVG`} className="w-10 h-10" />
-                                    <h4 className="font-medium text-2xl text-slate-800">{frontendSkill.title}</h4>
-                                </div>
-                                <div>
-                                    <p className="text-slate-500 font-serif tracking-wider text-lg">{frontendSkill.description}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-                <div className="flex flex-col gap-2 lg:gap-4">
-                    <h3 className="font-montserrat font-semibold text-blue-600 text-lg lg:text-xl">Server Side</h3>
-                    <div className="flex flex-col gap-4 lg:gap-8">
-                        {backendSkills.map((frontendSkill, index) => (
-                            <div key={index} className="flex flex-col gap-2">
-                                <div className="flex items-center gap-2">
-                                    <img src={frontendSkill.image} alt={`${frontendSkill.title} SVG`} className="w-10 h-10" />
-                                    <h4 className="font-medium text-2xl text-slate-800">{frontendSkill.title}</h4>
-                                </div>
-                                <div>
-                                    <p className="text-slate-500 font-serif tracking-wider text-lg">{frontendSkill.description}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
+        <section className="flex flex-col gap-10 pt-4 border-t border-zinc-800">
+            <GradientText>
+                <h2 className="font-serif font-medium text-4xl">What i work with</h2>
+            </GradientText>
+            <ul className="flex flex-col gap-4">
+                {skills.map((skill, index) => (
+                    <li key={index} className="flex gap-3 border border-zinc-800 rounded-sm p-4 bg-neutral-900 xl:p-5">
+                        <div className="w-full h-full min-w-[3.5rem] max-w-[3.5rem] min-h-[3.5rem] max-h-[3.5rem] flex items-center justify-center bg-zinc-700 rounded-full">
+                            <img src={skill.image} alt={`${skill.title} icon`} className="w-full h-full max-w-[2rem] max-h-[2rem] rounded-sm" />
+                        </div>
+                        <div className="py-1 text-left flex flex-col gap-1">
+                            <h3 className="text-xl font-semibold text-zinc-200">{skill.title}</h3>
+                            <p>{skill.description}</p>
+                        </div>
+                    </li>
+                ))}
+            </ul>
         </section>
     )
 }
