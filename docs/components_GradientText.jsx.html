@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: pages/Home.jsx</title>
+    <title>JSDoc: Source: components/GradientText.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: pages/Home.jsx</h1>
+    <h1 class="page-title">Source: components/GradientText.jsx</h1>
 
     
 
@@ -29,34 +29,29 @@
             <pre class="prettyprint source linenums"><code>//@ts-check
 
 import React from "react";
-import Sidebar from "../components/Sidebar";
-import { GradientText } from "../components";
-import WhatIWorkWIth from "../components/WhatIWorkWIth";
-
 
 /**
- * Home page component
- * @returns {React.JSX.Element}
+ * @typedef {Object} GradientTextProps
+ * @property {React.ReactNode} [children] - props children
+ * @property {boolean} [autoLayout] - Auto layout ensures the text decoration applies statically or based on the viewport size.
  */
-const Home = () => {
-  return (
-    &lt;div className="p-4 grid grid-cols-1 gap-4 text-center md:grid-cols-3 md:text-start lg:gap-10 lg:py-8 lg:grid-cols-6 xl:gap-20">
-      &lt;div className="col-span-1 lg:col-span-2 md:sticky md:top-0 md:h-fit 2xl:top-8">
-        &lt;Sidebar />
-      &lt;/div>
-      &lt;div className="flex flex-col gap-20 col-span-2 lg:col-span-4">
-        &lt;section className="hidden md:flex">
-          &lt;GradientText>
-            &lt;p className="font-medium font-serif text-3xl leading-relaxed lg:text-4xl lg:leading-relaxed">Passionate about turning ideas into dynamic and responsive web solutions using clean, efficient code. Proficient in React JS, Node.js, and MongoDB, with a focus on building scalable, user-friendly applications.&lt;/p>
-          &lt;/GradientText>
-        &lt;/section>
-        &lt;WhatIWorkWIth />
-      &lt;/div>
-    &lt;/div>
-  )
+
+/**
+ * A React component that uses auto-layout.
+ * 
+ * @param {GradientTextProps} props - The props for the component.
+ * @returns {React.JSX.Element} The rendered component.
+ */
+const GradientText = (props) => {
+
+    return (
+        &lt;div className={`bg-clip-text text-transparent bg-gradient-to-r from-zinc-200 from-40% to-zinc-600 ${props.autoLayout ? "md:bg-gradient-to-tr" : "lg:from-60%"}`}>
+            {props.children}
+        &lt;/div>
+    )
 }
 
-export default Home</code></pre>
+export default GradientText</code></pre>
         </article>
     </section>
 
