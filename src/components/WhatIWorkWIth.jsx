@@ -99,13 +99,13 @@ const WhatIWorkWIth = () => {
             <GradientText>
                 <h2 className="font-serif font-medium text-4xl">What i work with</h2>
             </GradientText>
-            <ul className="flex flex-col gap-4">
+            <ul className="flex flex-col gap-4 text-left">
                 {skills.map((skill, index) => (
                     <li key={index} className="flex gap-3 border border-zinc-800 rounded-sm p-4 bg-neutral-900 xl:p-5">
                         <div className="w-full h-full min-w-[3.5rem] max-w-[3.5rem] min-h-[3.5rem] max-h-[3.5rem] flex items-center justify-center bg-zinc-700 rounded-full">
                             <img src={skill.image} alt={`${skill.title} icon`} className="w-full h-full max-w-[2rem] max-h-[2rem] rounded-sm" />
                         </div>
-                        <div className="py-1 text-left flex flex-col gap-1">
+                        <div className="py-1 flex flex-col gap-1">
                             <h3 className="text-xl font-semibold text-zinc-200">{skill.title}</h3>
                             <p>{skill.description}</p>
                         </div>

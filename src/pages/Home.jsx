@@ -4,6 +4,7 @@ import React from "react";
 import Sidebar from "../components/Sidebar";
 import { GradientText } from "../components";
 import WhatIWorkWIth from "../components/WhatIWorkWIth";
+import Certificates from "../components/Certificates";
 
 
 /**
@@ -23,6 +24,7 @@ const Home = () => {
           </GradientText>
         </section>
         <WhatIWorkWIth />
+        <Certificates />
       </div>
     </div>
   )
