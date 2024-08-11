@@ -5,6 +5,7 @@ import Sidebar from "../components/Sidebar";
 import { GradientText } from "../components";
 import WhatIWorkWIth from "../components/WhatIWorkWIth";
 import Certificates from "../components/Certificates";
+import Projects from "../components/Projects";
 
 
 /**
@@ -25,6 +26,7 @@ const Home = () => {
         </section>
         <WhatIWorkWIth />
         <Certificates />
+        <Projects />
       </div>
     </div>
   )

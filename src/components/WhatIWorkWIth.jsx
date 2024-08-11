@@ -95,9 +95,9 @@ const WhatIWorkWIth = () => {
     const skills = [...generalSkills, ...frontendSkills, ...backendSkills];
 
     return (
-        <section className="flex flex-col gap-10 pt-4 border-t border-zinc-800">
+        <section className="flex flex-col gap-10 pt-4 border-t-2 border-zinc-800">
             <GradientText>
-                <h2 className="font-serif font-medium text-4xl">What i work with</h2>
+                <h2 className="font-serif font-medium text-4xl py-1">What i work with</h2>
             </GradientText>
             <ul className="flex flex-col gap-4 text-left">
                 {skills.map((skill, index) => (
