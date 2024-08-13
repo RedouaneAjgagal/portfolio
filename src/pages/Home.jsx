@@ -6,6 +6,7 @@ import { GradientText } from "../components";
 import WhatIWorkWIth from "../components/WhatIWorkWIth";
 import Certificates from "../components/Certificates";
 import Projects from "../components/Projects";
+import Contact from "../components/Contact";
 
 
 /**
@@ -27,6 +28,7 @@ const Home = () => {
         <WhatIWorkWIth />
         <Certificates />
         <Projects />
+        <Contact />
       </div>
     </div>
   )
