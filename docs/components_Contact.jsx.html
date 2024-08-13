@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Contact.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Contact.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>//@ts-check
+
+import React, { useState } from "react";
+import GradientText from "./GradientText";
+
+/**
+ * The input type value
+ * @typedef {object} Input
+ * @property {string} value - the value of the input
+ * @property {boolean} isError - if the value has an error or not (default: true)
+ * @property {string} errorMsg - the error message to display
+ * @property {boolean} isShowError - to display the error message (default: false) 
+ */
+
+/**
+ * The contact input type for the validation
+ * @typedef {object} ContactInput
+ * @property {Input} name - the user name object
+ * @property {Input} email - the user email object
+ * @property {Input} message - the message content object
+ */
+
+
+/**
+ * @template T
+ * @typedef {Array&lt;T | React.Dispatch&lt;React.SetStateAction&lt;T>>>} UseStateTuple
+ */
+
+
+/**
+ * Contact component that holds the contact form
+ * @returns {React.JSX.Element}
+ */
+const Contact = () => {
+
+    /**
+     * @type {ContactInput}
+     */
+    const intialInputs = {
+        name: {
+            value: "",
+            isError: true,
+            errorMsg: "Please provide a name",
+            isShowError: false
+        },
+        email: {
+            value: "",
+            isError: true,
+            errorMsg: "Please provide your email",
+            isShowError: false
+        },
+        message: {
+            value: "",
+            isError: true,
+            errorMsg: "Please enter your message",
+            isShowError: false
+        }
+    };
+
+    /**
+     * @type {UseStateTuple&lt;ContactInput>}
+     */
+    const [inputs, setInputs] = useState(intialInputs);
+
+
+    /**
+     * Contact form to recieve user's messages
+     * @type {React.FormEventHandler&lt;HTMLFormElement>}
+     * @returns {void} - Send form data to the EmailJS service
+     */
+    const submitContactFormHandler = (e) => {
+        e.preventDefault();
+
+        /**
+         * grab all the input errors and check if any has an error
+         * @type {boolean}
+         */
+        const isInputsHasError = Object.values(inputs).some((value) => value.isError);
+
+        if (isInputsHasError) {
+            setInputs(prev => {
+                return {
+                    ...prev,
+                    name: {
+                        ...prev.name,
+                        isShowError: true
+                    },
+                    email: {
+                        ...prev.email,
+                        isShowError: true
+                    },
+                    message: {
+                        ...prev.message,
+                        isShowError: true
+                    }
+                }
+            });
+
+            console.log("ERROR");
+            return;
+        };
+
+        console.log("Sumbit");
+    }
+
+
+
+    /**
+     * set the name input values (value, errorMsg, isError) whenever typing the name (onChange)
+     * @type {React.ChangeEventHandler&lt;HTMLInputElement>} 
+     */
+    const setNameHandler = (e) => {
+        const name = e.target.value;
+
+        /**
+         * name error condition if the name is empty or less than 3 characters
+         * @type {boolean}
+         */
+        const isNameError = name.trim() === "" || name.trim().length &lt; 3;
+
+        setInputs(prev => {
+            return {
+                ...prev,
+                name: {
+                    value: name,
+                    isError: isNameError,
+                    isShowError: false,
+                    errorMsg: name.trim() === ""
+                        ? intialInputs.name.errorMsg
+                        : name.trim().length &lt; 3
+                            ? "The name must be at least 3 characters"
+                            : ""
+                }
+            }
+        });
+    }
+
+
+    /**
+     * set the email input values (value, errorMsg, isError) whenever typing the email (onChange)
+     * @type {React.ChangeEventHandler&lt;HTMLInputElement>} 
+     */
+    const setEmailHandler = (e) => {
+        const email = e.target.value;
+
+        /**
+         * email error validation to check if its an invalid email address
+         * @type {boolean}
+         */
+        const isInvalidEmail = email.trim() === ""
+            || !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email);
+
+        setInputs(prev => {
+            return {
+                ...prev,
+                email: {
+                    value: email,
+                    isError: isInvalidEmail,
+                    isShowError: false,
+                    errorMsg: email.trim() === ""
+                        ? intialInputs.email.errorMsg
+                        : isInvalidEmail
+                            ? "Please provide a valid email"
+                            : ""
+                }
+            }
+        });
+    }
+
+    /**
+     * set the email input values (value, errorMsg, isError) whenever typing the email (onChange)
+     * @type {React.ChangeEventHandler&lt;HTMLTextAreaElement>} 
+     */
+    const setMessageContentHandler = (e) => {
+        const message = e.target.value;
+
+        /**
+         * message error validation
+         * @type {boolean}
+         */
+        const isMessageError = message.trim() === "" || message.length > 1000;
+
+        setInputs(prev => {
+            return {
+                ...prev,
+                message: {
+                    value: message,
+                    isShowError: false,
+                    isError: isMessageError,
+                    errorMsg: message.trim() === ""
+                        ? intialInputs.message.errorMsg
+                        : message.length > 1000
+                            ? "Message content limit is 1000 characters"
+                            : ""
+                }
+            }
+        });
+    }
+
+
+    return (
+        &lt;section className="flex flex-col gap-10 pt-4 border-t-2 border-zinc-800">
+            &lt;GradientText>
+                &lt;h2 className="font-serif font-medium text-4xl py-1">Get in touch&lt;/h2>
+            &lt;/GradientText>
+            &lt;form className="text-left grid grid-cols-1 gap-4 lg:grid-cols-2" onSubmit={submitContactFormHandler} noValidate>
+                &lt;div className="col-span-1">
+                    &lt;input type="text" placeholder="Name" className={`w-full py-2 px-3 rounded-sm bg-neutral-900 border outline-1 outline-offset-0 outline-zinc-800 ${inputs.name.isShowError &amp;&amp; inputs.name.isError &amp;&amp; inputs.name.errorMsg !== "" ? "border-red-600/80" : "border-zinc-700/70"}`} onChange={setNameHandler} value={inputs.name.value} />
+                    &lt;div className={`duration-200 px-3 rounded-sm text-sm font-medium ${inputs.name.isShowError &amp;&amp; inputs.name.isError &amp;&amp; inputs.name.errorMsg !== "" ? "visible bg-red-700/70 py-1 mt-1 opacity-100" : "h-0 invisible opacity-0"}`}>
+                        &lt;span>{inputs.name.errorMsg}&lt;/span>
+                    &lt;/div>
+                &lt;/div>
+                &lt;div className="col-span-1">
+                    &lt;input type="email" placeholder="Email" className={`w-full py-2 px-3 rounded-sm bg-neutral-900 border outline-1 outline-offset-0 outline-zinc-800 ${inputs.email.isShowError &amp;&amp; inputs.email.isError &amp;&amp; inputs.email.errorMsg !== "" ? "border-red-600/80" : "border-zinc-700/70"}`} onChange={setEmailHandler} value={inputs.email.value} />
+                    &lt;div className={`duration-200 px-3 rounded-sm text-sm font-medium ${inputs.email.isShowError &amp;&amp; inputs.email.isError &amp;&amp; inputs.email.errorMsg !== "" ? "visible bg-red-700/70 py-1 mt-1 opacity-100" : "h-0 invisible opacity-0"}`}>
+                        &lt;span>{inputs.email.errorMsg}&lt;/span>
+                    &lt;/div>
+                &lt;/div>
+                &lt;div className="col-span-1 lg:col-span-2">
+                    &lt;textarea name="message" id="message" className={`w-full resize-none py-2 px-3 rounded-sm bg-neutral-900 border outline-1 outline-offset-0 outline-zinc-800 ${inputs.message.isShowError &amp;&amp; inputs.message.isError &amp;&amp; inputs.message.errorMsg !== "" ? "border-red-600/80" : "border-zinc-700/70"}`} placeholder="Message" rows={8} onChange={setMessageContentHandler} value={inputs.message.value}>&lt;/textarea>
+                    &lt;div className={`duration-200 px-3 rounded-sm text-sm font-medium ${inputs.message.isShowError &amp;&amp; inputs.message.isError &amp;&amp; inputs.message.errorMsg !== "" ? "visible bg-red-700/70 py-1 opacity-100" : "h-0 invisible opacity-0"}`}>
+                        &lt;span>{inputs.message.errorMsg}&lt;/span>
+                    &lt;/div>
+                &lt;/div>
+                &lt;div className="col-span-1 lg:col-span-2">
+                    &lt;button className="bg-neutral-800/10 p-3 rounded-sm border-2 border-neutral-300/20 w-full font-medium text-slate-300 uppercase transition-all hover:bg-neutral-900">Send Message&lt;/button>
+                &lt;/div>
+            &lt;/form>
+        &lt;/section>
+    )
+}
+
+export default Contact</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Certificates">Certificates</a></li><li><a href="global.html#Contact">Contact</a></li><li><a href="global.html#GradientText">GradientText</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#Projects">Projects</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#WhatIWorkWIth">WhatIWorkWIth</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Tue Aug 13 2024 23:49:50 GMT+0100 (GMT+01:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
