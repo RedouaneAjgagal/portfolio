@@ -1,7 +1,10 @@
 //@ts-check
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import GradientText from "./GradientText";
+
+import emailjs, { EmailJSResponseStatus } from "@emailjs/browser";
+import "../config/envTypes";
 
 /**
  * The input type value
@@ -26,12 +29,28 @@ import GradientText from "./GradientText";
  * @typedef {Array<T | React.Dispatch<React.SetStateAction<T>>>} UseStateTuple
  */
 
+/**
+ * @typedef {Object} ContactRequest
+ * @property {boolean} isSuccess
+ * @property {boolean} isLoading
+ * @property {boolean} isVisible
+ */
+
 
 /**
  * Contact component that holds the contact form
  * @returns {React.JSX.Element}
  */
 const Contact = () => {
+    /** @type {ContactRequest} */
+    const intialContactRequest = {
+        isSuccess: false,
+        isLoading: false,
+        isVisible: false
+    };
+
+    /** @type {UseStateTuple<ContactRequest>} */
+    const [contactRequest, setContactRequest] = useState(intialContactRequest);
 
     /**
      * @type {ContactInput}
@@ -65,11 +84,14 @@ const Contact = () => {
 
     /**
      * Contact form to recieve user's messages
-     * @type {React.FormEventHandler<HTMLFormElement>}
-     * @returns {void} - Send form data to the EmailJS service
+     * @param {React.FormEvent<HTMLFormElement>} event
+     * @returns {Promise<void>} - Send form data to the EmailJS service
      */
-    const submitContactFormHandler = (e) => {
-        e.preventDefault();
+    const submitContactFormHandler = async (event) => {
+        event.preventDefault();
+
+        // don't submit a new message if it's still sending the previous one
+        if (contactRequest.isLoading) return;
 
         /**
          * grab all the input errors and check if any has an error
@@ -100,10 +122,62 @@ const Contact = () => {
             return;
         };
 
-        console.log("Sumbit");
+        //@ts-ignore
+        const serviceId = import.meta.env.VITE_SERVICE_ID;
+        //@ts-ignore
+        const templateId = import.meta.env.VITE_TEMPLATE_ID;
+        //@ts-ignore
+        const publicKey = import.meta.env.VITE_PUBLIC_KEY;
+
+        /**
+         * contact form content
+         * @typedef {Object} TemplateParams
+         * @property {string} name - the name of the user
+         * @property {string} email - the user's email
+         * @property {string} message - the user's message content
+         */
+
+        /** @type {TemplateParams} */
+        const templateParams = {
+            name: inputs.name.value,
+            email: inputs.email.value,
+            message: inputs.message.value
+        }
+
+        try {
+            setContactRequest({
+                isLoading: true,
+                isSuccess: false,
+                isVisible: false
+            });
+            await emailjs.send(serviceId, templateId, templateParams, {
+                publicKey: publicKey
+            });
+            setContactRequest({
+                isLoading: false,
+                isSuccess: true,
+                isVisible: true
+            });
+        } catch (error) {
+            setContactRequest({
+                isLoading: false,
+                isSuccess: false,
+                isVisible: true
+            });
+            if (error instanceof EmailJSResponseStatus) {
+                console.log('EMAILJS FAILED...', error);
+                return;
+            }
+
+            console.log('ERROR', error);
+        }
+
+        setInputs(intialInputs);
+
+        setTimeout(() => {
+            setContactRequest(intialContactRequest);
+        }, 4000);
     }
-
-
 
     /**
      * set the name input values (value, errorMsg, isError) whenever typing the name (onChange)
@@ -223,7 +297,27 @@ const Contact = () => {
                     </div>
                 </div>
                 <div className="col-span-1 lg:col-span-2">
-                    <button className="bg-neutral-800/10 p-3 rounded-sm border-2 border-neutral-300/20 w-full font-medium text-slate-300 uppercase transition-all hover:bg-neutral-900">Send Message</button>
+                    <button disabled={contactRequest.isLoading} className="bg-neutral-800/10 p-3 rounded-sm border-2 border-neutral-300/20 w-full font-medium text-slate-300 uppercase transition-all hover:bg-neutral-900">
+                        {contactRequest.isLoading
+                            ? "Sending.."
+                            : "Send Message"
+                        }
+                    </button>
+                    <div className={`w-fit m-auto mt-2 text-center duration-200 px-8 rounded-sm font-medium ${!contactRequest.isVisible
+                        ? "h-0 invisible opacity-0"
+                        : !contactRequest.isLoading && contactRequest.isSuccess
+                            ? "visible bg-green-800 py-2 opacity-100"
+                            : "visible bg-red-800 py-2 opacity-100"}`}>
+                        {!contactRequest.isVisible
+                            ? null
+                            : <span>
+                                {!contactRequest.isLoading && contactRequest.isSuccess
+                                    ? "Sent Successfully"
+                                    : "Failed to send the message"
+                                }
+                            </span>
+                        }
+                    </div>
                 </div>
             </form>
         </section>
