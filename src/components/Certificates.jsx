@@ -43,7 +43,7 @@ const Certificates = () => {
     return (
         <section className="flex flex-col gap-10 pt-4 border-t-2 border-zinc-800">
             <GradientText>
-                <h2 className="font-serif font-medium text-4xl py-1">My certificates</h2>
+                <h2 className="font-serif font-medium text-4xl py-1">Certificates</h2>
             </GradientText>
             <ul className="flex flex-col gap-4 text-left">
                 {certificates.map((certificate, index) => (
