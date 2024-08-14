@@ -15,6 +15,19 @@ import myPicture from "../assets/redouane-ajgagal.jpg"
  * // Mobile size => displaying in the top of the page
  */
 const Sidebar = () => {
+
+
+    /**
+     * scroll down the page on click (to the contact form)
+     * @returns {void}
+     */
+    const navigateToContactHandler = () => {
+        window.scrollTo({
+            behavior: "smooth",
+            top: document.body.scrollHeight
+        });
+    }
+
     return (
         <aside className="flex flex-col py-4">
             <GradientText autoLayout>
@@ -28,7 +41,7 @@ const Sidebar = () => {
                 </div>
             </GradientText>
             <div className="py-4 w-full lg:mt-2">
-                <button className="bg-gradient-to-l from-zinc-900 to-zinc-900 p-2 rounded-sm border border-zinc-800 w-full font-medium text-slate-300 uppercase md:to-zinc-800 md:from-zinc-900 md:from-70%">Get in touch</button>
+                <button onClick={navigateToContactHandler} className="bg-gradient-to-l from-zinc-900 to-zinc-900 p-2 rounded-sm border border-zinc-800 w-full font-medium text-slate-300 uppercase md:to-zinc-800 md:from-zinc-900 md:from-70%">Get in touch</button>
             </div>
         </aside>
     )
