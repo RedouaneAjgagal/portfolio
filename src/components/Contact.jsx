@@ -1,10 +1,9 @@
 //@ts-check
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import GradientText from "./GradientText";
 
 import emailjs, { EmailJSResponseStatus } from "@emailjs/browser";
-import "../config/envTypes";
 
 /**
  * The input type value
