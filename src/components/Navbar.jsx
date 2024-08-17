@@ -28,6 +28,8 @@ const Navbar = () => {
       </div>
       <div>
         <ul className="flex gap-6">
+          <li><a href="https://www.linkedin.com/in/redouane-ajgagal" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          <li className="text-slate-500">|</li>
           <li><a href="https://twitter.com/redouaneajgagal" target="_blank" rel="noopener noreferrer">Twitter</a></li>
           <li className="text-slate-500">|</li>
           <li><a href="https://github.com/RedouaneAjgagal" target="_blank" rel="noopener noreferrer">GitHub</a></li>
