@@ -110,7 +110,7 @@ const Projects = () => {
                 cloudinary
             ],
             url: {
-                live: "https://recipe-sharing-app-wj2v.onrender.com",
+                live: "https://recipe-sharing-app-u63m.onrender.com",
                 source: "https://github.com/RedouaneAjgagal/recipe-sharing-app"
             }
         },
